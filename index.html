@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
+
+    <title>Leaflet Geoproject</title>
+    <style>
+        #map {
+            width: 100%;
+            height: 700px;
+        }
+    </style>
+</head>
+<body>
+    <!-- map full screen function -->
+    <div id="map"></div>
+
+    <button onclick=fullScreenView()>
+        View the full screen
+    </button>
+
+    <!-- map coordinate display -->
+    <div class="coordinate"></div>
+
+    <!-- map print fucntinality -->
+    <button class="print-map">Print map</button>
+
+    
+</body>
+</html>
+
+
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js" integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+<script>
+    // map class initialize
+    var map = L.map('map').setView([11.5564, 104.9282], 7);
+    map.zoomControl.setPosition('topright');
+
+    // adding osm titlelayer
+    L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+    }).addTo(map);
+    
+    // adding marker in the center of map
+    L.marker([11.5564, 104.9282]).addTo(map)
+        .bindPopup('A pretty CSS popup.<br> Easily customizable.')
+        .openPopup();
+    // add map scale
+    L.control.scale({position: 'bottomright'}).addTo(map)
+
+    // full screen map view
+    var mapId = document.getElementById('map');
+    function fullScreenView() {
+        mapId.requestFullscreen();
+    }
+    
+    // Map coordinate display
+    map.on('mousemove', function(e){
+        console.log(e)
+        $('.coordinate').html(`Lat: ${e.latlng.lat} Lng: ${e.latlng.lng}`)
+    })
+
+    // map print functionality
+    $('.print-map').click(function() {
+        window.print();
+    })
+
+
+</script>
+
+
